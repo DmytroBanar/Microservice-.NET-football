@@ -2,17 +2,14 @@ version: '3.4'
 
 services:
 
-  catalogdb:
-    image: mongo
+  companyandemployeedb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
 
-  basketdb:
-    image: redis:alpine
-
-  discountdb:
+  footballteamsandplayersdb:
     image: postgres
 
-  orderdb:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+  footballleagueandclubsdb:
+    image: postgres
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -23,42 +20,28 @@ services:
   portainer:
     image: portainer/portainer-ce 
 
-  catalog.api:
-    image: ${DOCKER_REGISTRY-}catalogapi
+  companyandemployee.api:
+    image: ${DOCKER_REGISTRY-}companyandemployeeapi
     build:
       context: .
-      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+      dockerfile: Services/Basket/WebApi/Dockerfile
 
-  basket.api:
-    image: ${DOCKER_REGISTRY-}basketapi
+  footballteamsandplayers.api:
+    image: ${DOCKER_REGISTRY-}footballteamsandplayersapi
     build:
       context: .
-      dockerfile: Services/Basket/Basket.API/Dockerfile
+      dockerfile: Services/Catalog/WebApi/Dockerfile
 
-  discount.api:
-    image: ${DOCKER_REGISTRY-}discountapi
+  footballleagueandclubs.api:
+    image: ${DOCKER_REGISTRY-}footballleagueandclubsapi
     build:
       context: .
-      dockerfile: Services/Discount/Discount.API/Dockerfile
-
-  discount.grpc:
-    image: ${DOCKER_REGISTRY-}discountgrpc
-    build:
-      context: .
-      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
-
-  ordering.api:
-    image: ${DOCKER_REGISTRY-}orderingapi
-    build:
-      context: .
-      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+      dockerfile: Services/Ordering/UnitOfWorkDemo/Dockerfile
 
 volumes:
-  mongo_data:
   portainer_data:
   postgres_data:
   pgadmin_data:
-
 
 
 
